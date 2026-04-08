@@ -1,13 +1,13 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using PkAssessmentAPI.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
-namespace PkAssessmentAPI.Repositories
+namespace PkAssessmentAPI.Infrastructure.Repositories
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class, new()
     {
@@ -16,7 +16,7 @@ namespace PkAssessmentAPI.Repositories
 
         protected GenericRepository(IConfiguration configuration, string tableName)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection") 
+            _connectionString = configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             _tableName = tableName;
         }

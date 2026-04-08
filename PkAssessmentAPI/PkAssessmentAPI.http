@@ -1,6 +1,0 @@
-@PkAssessmentAPI_HostAddress = http://localhost:5189
-
-GET {{PkAssessmentAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

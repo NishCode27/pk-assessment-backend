@@ -1,65 +1,64 @@
 using Microsoft.AspNetCore.Mvc;
-using PkAssessmentAPI.Models.Entities;
-using PkAssessmentAPI.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using PkAssessmentAPI.Application.Interfaces;
+using PkAssessmentAPI.Models.DTOs.Department;
 
 namespace PkAssessmentAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/departments")]
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IDepartmentService _departmentService;
         private readonly ILogger<DepartmentController> _logger;
 
-        public DepartmentController(IDepartmentRepository departmentRepository, ILogger<DepartmentController> logger)
+        public DepartmentController(IDepartmentService departmentService, ILogger<DepartmentController> logger)
         {
-            _departmentRepository = departmentRepository;
+            _departmentService = departmentService;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Department>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DepartmentDto>>> GetAll()
         {
-            var departments = await _departmentRepository.GetAllAsync();
+            _logger.LogInformation("Fetching all departments");
+            var departments = await _departmentService.GetAllDepartmentsAsync();
             return Ok(departments);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Department>> GetById(int id)
+        public async Task<ActionResult<DepartmentDto>> GetById(int id)
         {
-            var department = await _departmentRepository.GetByIdAsync(id);
+            var department = await _departmentService.GetDepartmentByIdAsync(id);
             if (department == null) return NotFound();
             return Ok(department);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(Department department)
+        public async Task<ActionResult> Create(AddDepartmentDto departmentDto)
         {
-            await _departmentRepository.AddAsync(department);
+            await _departmentService.CreateDepartmentAsync(departmentDto);
             return Ok(new { message = "Department created successfully" });
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, Department department)
+        public async Task<ActionResult> Update(int id, EditDepartmentDto editDepartmentDto)
         {
-            if (id != department.Id) return BadRequest("ID mismatch");
-            
-            var existing = await _departmentRepository.GetByIdAsync(id);
+            if (id != editDepartmentDto.Id) return BadRequest("ID mismatch");
+
+            var existing = await _departmentService.GetDepartmentByIdAsync(id);
             if (existing == null) return NotFound();
 
-            await _departmentRepository.UpdateAsync(department);
+            await _departmentService.UpdateDepartmentAsync(editDepartmentDto);
             return Ok(new { message = "Department updated successfully" });
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existing = await _departmentRepository.GetByIdAsync(id);
+            var existing = await _departmentService.GetDepartmentByIdAsync(id);
             if (existing == null) return NotFound();
 
-            await _departmentRepository.DeleteAsync(id);
+            await _departmentService.DeleteDepartmentAsync(id);
             return Ok(new { message = "Department deleted successfully" });
         }
     }

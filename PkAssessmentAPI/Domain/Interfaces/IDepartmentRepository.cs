@@ -1,7 +1,6 @@
-using PkAssessmentAPI.Models.Entities;
-using System.Threading.Tasks;
+using PkAssessmentAPI.Domain.Entities;
 
-namespace PkAssessmentAPI.Repositories
+namespace PkAssessmentAPI.Domain.Interfaces
 {
     public interface IDepartmentRepository : IGenericRepository<Department>
     {
