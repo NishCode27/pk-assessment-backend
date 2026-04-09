@@ -7,7 +7,7 @@ namespace PkAssessmentAPI.Domain.Entities
         public string LastName { get; set; } = string.Empty;
         public string EmailAddress { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
-        public int Age { get; set; }             // Computed column — read-only from DB
+        public int Age { get; set; } // Computed by DB
         public decimal Salary { get; set; }
         public int DepartmentId { get; set; }
         public string? PhoneNumber { get; set; }

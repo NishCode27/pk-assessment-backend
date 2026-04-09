@@ -1,4 +1,4 @@
-IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'Department')
+IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'Employee')
     DROP TABLE [dbo].[Employee];
 
     CREATE TABLE [dbo].[Employee]

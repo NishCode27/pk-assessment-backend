@@ -8,16 +8,16 @@ namespace PkAssessmentAPI.Models.DTOs.Employee
 
         [Required]
         [MaxLength(50)]
-        public string FirstName { get; set; } = string.Empty;
+        public required string FirstName { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(50)]
-        public string LastName { get; set; } = string.Empty;
+        public required string LastName { get; set; } = string.Empty;
 
         [Required]
         [EmailAddress]
         [MaxLength(100)]
-        public string EmailAddress { get; set; } = string.Empty;
+        public required string EmailAddress { get; set; } = string.Empty;
 
         [Required]
         public DateTime DateOfBirth { get; set; }
